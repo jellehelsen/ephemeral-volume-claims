@@ -1,9 +1,10 @@
+---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: "{name}"
   annotations:
-    volume.beta.kubernetes.io/storage-class: standard
+    volume.beta.kubernetes.io/storage-class: hpe-standard
 spec:
   accessModes:
     - ReadWriteOnce
