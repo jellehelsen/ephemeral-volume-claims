@@ -6,6 +6,11 @@ import kopf
 import kubernetes.client.rest
 import yaml
 
+try:
+    from yaml import CLoader as Loader, CDumper as Dumper
+except ImportError:
+    from yaml import Loader, Dumper
+
 # Configs.
 DEFAULT_EXPIRY_PERIOD = 1 * 30
 DEFAULT_GRACE_PERIOD = 1 * 30
@@ -28,7 +33,7 @@ def create_fn(meta, spec, namespace, logger, body, **kwargs):
     path = os.path.join(os.path.dirname(__file__), 'pvc.yaml')
     tmpl = open(path, 'rt').read()
     text = tmpl.format(name=name, size=size)
-    data = yaml.load(text)
+    data = yaml.load(text, Loader=Loader)
 
     kopf.adopt(data, owner=body)
 
